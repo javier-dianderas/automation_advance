@@ -1,0 +1,236 @@
+{
+  "name": "automation2-modulo1",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "ROL\n\nEres un Agente Autónomo de Gestión Comercial.\n\nOBJETIVO\n\nAnalizar la solicitud del usuario y decidir si corresponde:\n\n1. Enviar un correo mediante Gmail.\n2. Crear una tarea mediante Google Sheets.\n3. Solicitar aclaración.\n\nREGLAS\n\nNunca inventes datos.\n\nSi faltan datos mínimos para ejecutar una acción, solicita aclaración y no utilices herramientas.\n\nDECISIONES\n\nUtiliza Gmail cuando la intención sea:\n\n- enviar correo\n- contactar por email\n- responder correo\n- hacer seguimiento por correo\n\nUtiliza Google Sheets cuando la intención sea:\n\n- crear tarea\n- registrar pendiente\n- asignar actividad\n- registrar seguimiento\n\nVALIDACIONES\n\nCorreo:\n\nPara enviar un correo deben existir TODOS los siguientes datos:\n\n1. Dirección de correo electrónico explícita.\n2. Motivo o contenido del mensaje.\n\nSe considera dirección válida únicamente una dirección con formato:\n\nusuario@dominio.com\n\nNO son destinatarios válidos:\n\n- el cliente\n- mi cliente\n- el proveedor\n- mi proveedor\n- ventas\n- soporte\n- el gerente\n- el equipo\n- alguien\n- una persona\n\nSi no existe una dirección de correo verificable, solicita aclaración y NO utilices Gmail.\n\nTarea:\n\nPara crear una tarea debe existir:\n\n1. Descripción de la tarea.\n\nSi falta la descripción, solicita aclaración y NO utilices Google Sheets.\n\nFORMATO DE RESPUESTA\n\nResultado: enviado | tarea creada | no ejecutado\n\nAcción realizada\n\nHerramienta utilizada\n\nDatos faltantes (si aplica)\n\nPROHIBIDO INVENTAR DATOS\n\nNunca inventes:\n\n- correos electrónicos\n- nombres de personas\n- nombres de empresas\n- teléfonos\n- fechas\n- tareas\n- destinatarios\n\nSi un dato no fue proporcionado por el usuario o recuperado mediante una herramienta, debes considerarlo inexistente.\n\nCHECK OBLIGATORIO ANTES DE USAR UNA HERRAMIENTA\n\nAntes de ejecutar cualquier herramienta debes verificar que todos los datos mínimos estén presentes.\n\nSi falta al menos un dato obligatorio:\n\n- NO utilices ninguna herramienta.\n- Solicita únicamente los datos faltantes.",
+          "maxIterations": 5
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -32,
+        -112
+      ],
+      "id": "d5e49598-e14b-4c42-aff8-93170399d12f",
+      "name": "Asesor Comercial"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Utiliza esta herramienta únicamente cuando el usuario solicite:\n\n- crear una tarea\n- registrar un pendiente\n- asignar una actividad\n- realizar seguimiento de una actividad\n\nAntes de ejecutar verifica:\n\n1. Existe una descripción de la tarea.\n2. Existe suficiente contexto para registrarla.\n\nSi falta información solicita aclaración.\n\nRegistrar en la hoja:\n\nFecha\nTarea\nPrioridad\nEstado\n\nSi el usuario no indica prioridad utilizar:\nMedia\n\nSi el usuario no indica estado utilizar:\nPendiente",
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1wCMKE4iRQVrEpDTdOIWIky5-erj8NApchZgJP9b31Uk",
+          "mode": "list",
+          "cachedResultName": "Tareas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wCMKE4iRQVrEpDTdOIWIky5-erj8NApchZgJP9b31Uk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Tareas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wCMKE4iRQVrEpDTdOIWIky5-erj8NApchZgJP9b31Uk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "Fecha": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Fecha', ``, 'string') }}",
+            "Tarea": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Tarea', ``, 'string') }}",
+            "Prioridad": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prioridad', ``, 'string') }}",
+            "Estado": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Estado', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "Tarea"
+          ],
+          "schema": [
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tarea",
+              "displayName": "Tarea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prioridad",
+              "displayName": "Prioridad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        112,
+        144
+      ],
+      "id": "e1238a93-c355-418c-bbca-0a7e195d77eb",
+      "name": "Append in Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IPeLgd9izClYTXgA",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -224,
+        -112
+      ],
+      "id": "9e4ce7c5-42a6-4aa9-a0f5-988ffb5e3de2",
+      "name": "Chat Message",
+      "webhookId": "18cec134-daca-497a-8b1c-85c1dea81cd4"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Utiliza Gmail únicamente cuando:\n\n1. El usuario solicita enviar un correo.\n2. Existe una dirección de correo electrónico explícita.\n3. Existe contenido suficiente para redactar el mensaje.\n\nSi cualquiera de estas condiciones no se cumple, NO utilices Gmail.",
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        272,
+        144
+      ],
+      "id": "90ec4c3e-402a-4a33-9019-d01ebdbaa3a6",
+      "name": "Send in Gmail",
+      "webhookId": "882d8372-6cdd-4c34-a513-49f515225a82",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Y9Lxnca3caaLyaiR",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -80,
+        160
+      ],
+      "id": "242bfcb7-fba7-4add-82e0-aad87d0c87d7",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "n6SR2VUhIg5Q0Yz1",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Asesor Comercial": {
+      "main": [
+        [],
+        []
+      ]
+    },
+    "Append in Sheet": {
+      "ai_tool": [
+        [
+          {
+            "node": "Asesor Comercial",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat Message": {
+      "main": [
+        [
+          {
+            "node": "Asesor Comercial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "Asesor Comercial",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Asesor Comercial",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "5601b354-8c43-424e-a22b-5ed81840a519",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5b9c40997566b82128fa8b03929865b384cfa75aab5432db2f2fcda2419bb95e"
+  },
+  "id": "k1M7O9hHEWi3xFxq",
+  "tags": []
+}
